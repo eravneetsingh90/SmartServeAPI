@@ -1,7 +1,7 @@
 <Solution>
-  <Project Path="../SmartServeCommon/SmartServe.Common/SmartServe.Common.csproj" />
-  <Project Path="../SmartServeCommon/SmartServe.Domain/SmartServe.Domain.csproj" />
-  <Project Path="../SmartServeCommon/SmartServe.EFCore/SmartServe.EFCore.csproj" />
-  <Project Path="../SmartServeCommon/SmartServe.Resources/SmartServe.Resources.csproj" />
-  <Project Path="SmartServe.API.csproj" />
+  <Project Path="SmartServe.Common/SmartServe.Common.csproj" />
+  <Project Path="SmartServe.Domain/SmartServe.Domain.csproj" />
+  <Project Path="SmartServe.EFCore/SmartServe.EFCore.csproj" />
+  <Project Path="SmartServe.Resources/SmartServe.Resources.csproj" />
+  <Project Path="SmartServeAPI/SmartServe.API.csproj" />
 </Solution>
