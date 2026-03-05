@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SmartServe.API.Infrastructure;
+using SmartServe.API.Infrastructure.Authentication;
 using SmartServe.API.Models;
 using SmartServe.Domain.Constants;
 using SmartServe.Domain.Services;
@@ -44,7 +45,16 @@ public sealed class AuthController : ControllerBase
         }
 
         //var token = _jwtTokenGenerator.GenerateToken(user);
-        var token = _jwtTokenGenerator.GenerateToken();
+        //    var token = _jwtTokenGenerator.GenerateToken(
+        //user.Id,
+        //user.Username,
+        //user.Role,
+        //user.TenantId);
+        var token = _jwtTokenGenerator.GenerateToken(
+        new Guid(),
+        response.Data.Name,
+        response.Data.Role,
+        new Guid());
         _logger.LogInformation("User {UserId} logged in successfully", response.Data.Name);
 
         return Ok(new AuthResponseDto

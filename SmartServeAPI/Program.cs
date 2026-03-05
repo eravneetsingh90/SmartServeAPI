@@ -3,6 +3,7 @@ using Serilog.Events;
 using Serilog.Sinks.Elasticsearch;
 using SmartServe.API.Dependencies;
 using SmartServe.API.Middleware;
+using SmartServe.API.Infrastructure.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -52,6 +53,7 @@ builder.Services.AddSwaggerGen();
 
 //builder.Services.AddSingleton(builder.Configuration);
 
+builder.Services.AddJwtAuthentication(builder.Configuration);
 
 #endregion
 
@@ -69,7 +71,6 @@ app.UseMiddleware<SingleLogMiddleware>();
 
 app.UseHttpsRedirection();
 
-builder.Services.AddJwtAuthentication(builder.Configuration);
 
 app.UseAuthentication();
 app.UseAuthorization();
