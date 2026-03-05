@@ -24,4 +24,8 @@
     <ProjectReference Include="..\SmartServe.Domain\SmartServe.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Scripts\" />
+  </ItemGroup>
+
 </Project>
