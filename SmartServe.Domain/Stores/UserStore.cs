@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SmartServe.EFCore.Db;
-using SmartServe.EFCore.Models;
+using SmartServe.EFCore.Entities;
 
 namespace SmartServe.Domain.Stores
 {
-	public class UserStore : BaseStore<UserEntity>, IUserStore
+	public class UserStore : BaseStore<UserEntity, int>, IUserStore
 	{
 		public UserStore(SmartServeDbContext db)
 			: base(db)

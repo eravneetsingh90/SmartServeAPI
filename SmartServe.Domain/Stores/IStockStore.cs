@@ -1,10 +1,10 @@
 ﻿using SmartServe.Domain.Models;
 using SmartServe.Domain.Stores.SmartServe.Domain.Stores;
-using SmartServe.EFCore.Models;
+using SmartServe.EFCore.Entities;
 
 namespace SmartServe.Domain.Stores
 {
-	public interface IStockStore : IBaseStore<StockEntity>
+	public interface IStockStore : IBaseStore<StockEntity, int>
 	{
 		Task<List<StockEntity>> GetAllStockAsync();
 		Task<List<StockEntity>> GetStockAsync();

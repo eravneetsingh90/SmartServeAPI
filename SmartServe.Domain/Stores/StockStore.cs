@@ -2,12 +2,12 @@
 using SmartServe.Domain.Constants;
 using SmartServe.Domain.Models;
 using SmartServe.EFCore.Db;
-using SmartServe.EFCore.Models;
+using SmartServe.EFCore.Entities;
 using System.Net;
 
 namespace SmartServe.Domain.Stores
 {
-	public class StockStore : BaseStore<StockEntity>, IStockStore
+	public class StockStore : BaseStore<StockEntity,int>, IStockStore
 	{
 
 		public StockStore(SmartServeDbContext db) : base(db)

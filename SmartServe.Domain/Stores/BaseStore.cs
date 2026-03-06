@@ -1,11 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SmartServe.Domain.Stores.SmartServe.Domain.Stores;
 using SmartServe.EFCore.Db;
+using SmartServe.EFCore.Entities;
 
 namespace SmartServe.Domain.Stores
 {
-	public abstract class BaseStore<T> : IBaseStore<T> where T : class
-	{
+    public abstract class BaseStore<T, TKey> : IBaseStore<T, TKey> where T : class, IEntity<TKey>
+    {
 		protected readonly SmartServeDbContext Db;
 		protected readonly DbSet<T> Set;
 
@@ -22,13 +23,13 @@ namespace SmartServe.Domain.Stores
 			return await Set.AsNoTracking().ToListAsync();
 		}
 
-		public virtual async Task<T?> GetByIdAsync<TKey>(TKey id)
-		{
-			return await Set.AsNoTracking()
-				.FirstOrDefaultAsync(e =>
-					EF.Property<TKey>(e, "Id")!.Equals(id));
-		}
-		public virtual void Add(T entity)
+		public virtual async Task<T?> GetByIdAsync(TKey id)
+        {
+            return await Set
+                .AsNoTracking()
+                .FirstOrDefaultAsync(e => e.Id!.Equals(id));
+        }
+        public virtual void Add(T entity)
 		{
 			Set.Add(entity);
 		}
@@ -77,7 +78,6 @@ namespace SmartServe.Domain.Stores
 
 			Set.Remove(entity);
 		}
-
 		// ================= COMMIT =================
 
 		public virtual Task SaveAsync()

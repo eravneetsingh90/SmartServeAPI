@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SmartServe.EFCore.Models;
+namespace SmartServe.EFCore.Entities;
 
-public partial class ProductVariantEntity
+public partial class ProductVariantEntity : IEntity<int>
 {
     public int Id { get; set; }
+
+    public int TenantId { get; set; }
 
     public int ProductId { get; set; }
 
@@ -17,9 +19,13 @@ public partial class ProductVariantEntity
 
     public bool? IsActive { get; set; }
 
-    public int DisplayOrder { get; set; }
+    public bool? IsDeleted { get; set; }
+
+    public int? DisplayOrder { get; set; }
 
     public DateTime? CreatedAt { get; set; }
+
+    public DateTime? UpdatedAt { get; set; }
 
     public virtual BrandEntity? Brand { get; set; }
 
@@ -32,4 +38,6 @@ public partial class ProductVariantEntity
     public virtual ICollection<ProductIngredientEntity> ProductIngredientProductVariants { get; set; } = new List<ProductIngredientEntity>();
 
     public virtual ICollection<StockEntity> Stocks { get; set; } = new List<StockEntity>();
+
+    public virtual TenantEntity Tenant { get; set; } = null!;
 }

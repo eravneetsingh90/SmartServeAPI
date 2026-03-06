@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SmartServe.Domain.Models;
 using SmartServe.EFCore.Db;
-using SmartServe.EFCore.Models;
+using SmartServe.EFCore.Entities;
 
 namespace SmartServe.Domain.Stores
 {
-	public class OrderItemStore : BaseStore<OrderItemEntity>, IOrderItemStore
+	public class OrderItemStore : BaseStore<OrderItemEntity,int>, IOrderItemStore
 	{
 		public OrderItemStore(SmartServeDbContext db) : base(db) { }
 

@@ -1,5 +1,5 @@
 ﻿using SmartServe.Domain.Models;
-using SmartServe.EFCore.Models;
+using SmartServe.EFCore.Entities;
 
 namespace SmartServe.Domain.Services
 {

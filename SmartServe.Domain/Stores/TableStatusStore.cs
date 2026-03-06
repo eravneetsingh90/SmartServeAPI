@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SmartServe.EFCore.Db;
-using SmartServe.EFCore.Models;
+using SmartServe.EFCore.Entities;
 
 namespace SmartServe.Domain.Stores
 {
-	public class TableStatusStore : BaseStore<TableStatusEntity>, ITableStatusStore
+	public class TableStatusStore : BaseStore<TableStatusEntity,int>, ITableStatusStore
 	{
 		public TableStatusStore(SmartServeDbContext db) : base(db) { }
 

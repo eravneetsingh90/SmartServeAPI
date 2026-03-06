@@ -5,7 +5,7 @@ using SmartServe.Common.Models;
 using SmartServe.Domain.Constants;
 using SmartServe.Domain.Models;
 using SmartServe.Domain.Stores;
-using SmartServe.EFCore.Models;
+using SmartServe.EFCore.Entities;
 using System;
 
 namespace SmartServe.Domain.Services

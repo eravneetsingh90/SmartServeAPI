@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SmartServe.EFCore.Db;
-using SmartServe.EFCore.Models;
+using SmartServe.EFCore.Entities;
 using System.Runtime.CompilerServices;
 
 namespace SmartServe.Domain.Stores
 {
-	public class CategoryStore : BaseStore<CategoryEntity>, ICategoryStore
+	public class CategoryStore : BaseStore<CategoryEntity,int>, ICategoryStore
 	{
 		private readonly IUnitOfWork _uow;
 		public CategoryStore(SmartServeDbContext db, IUnitOfWork uow) : base(db) 

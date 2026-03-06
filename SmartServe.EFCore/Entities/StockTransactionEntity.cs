@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SmartServe.EFCore.Models;
+namespace SmartServe.EFCore.Entities;
 
-public partial class StockTransactionEntity
+public partial class StockTransactionEntity : IEntity<int>
 {
     public int Id { get; set; }
+
+    public int TenantId { get; set; }
 
     public int StockId { get; set; }
 
@@ -22,4 +24,6 @@ public partial class StockTransactionEntity
     public DateTime? CreatedAt { get; set; }
 
     public virtual StockEntity Stock { get; set; } = null!;
+
+    public virtual TenantEntity Tenant { get; set; } = null!;
 }

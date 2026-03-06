@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SmartServe.EFCore.Models;
+namespace SmartServe.EFCore.Entities;
 
-public partial class TableStatusEntity
+public partial class TableStatusEntity : IEntity<int>
 {
     public int Id { get; set; }
 

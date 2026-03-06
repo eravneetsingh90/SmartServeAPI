@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SmartServe.EFCore.Db;
-using SmartServe.EFCore.Models;
+using SmartServe.EFCore.Entities;
 using System.Collections.Generic;
 using System;
 using System.Linq;
@@ -9,7 +9,7 @@ using SmartServe.Domain.Models;
 
 namespace SmartServe.Domain.Stores
 {
-	public class OrderStore : BaseStore<OrderEntity>, IOrderStore
+	public class OrderStore : BaseStore<OrderEntity,int>, IOrderStore
 	{
 		public OrderStore(SmartServeDbContext db) : base(db) { }
 
@@ -58,7 +58,7 @@ namespace SmartServe.Domain.Stores
 		{
 			return await Set
 				.AsNoTracking() // we will reattach when updating
-				.Where(o => !o.IsTracked)
+				.Where(o => o.IsTracked == false)
 				.OrderBy(o => o.CreatedAt)
 				.Take(max)
 				.ToListAsync(ct);

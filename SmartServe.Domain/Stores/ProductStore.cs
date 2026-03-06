@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SmartServe.EFCore.Db;
-using SmartServe.EFCore.Models;
+using SmartServe.EFCore.Entities;
 
 namespace SmartServe.Domain.Stores
 {
-	public class ProductStore : BaseStore<ProductEntity>, IProductStore
+	public class ProductStore : BaseStore<ProductEntity,int>, IProductStore
 	{
 		private readonly IUnitOfWork _uow;
 		public ProductStore(SmartServeDbContext db, IUnitOfWork uow) : base(db) { _uow = uow; }

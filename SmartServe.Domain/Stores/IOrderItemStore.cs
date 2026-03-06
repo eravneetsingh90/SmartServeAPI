@@ -1,9 +1,9 @@
 ﻿using SmartServe.Domain.Stores.SmartServe.Domain.Stores;
-using SmartServe.EFCore.Models;
+using SmartServe.EFCore.Entities;
 
 namespace SmartServe.Domain.Stores
 {
-	public interface IOrderItemStore : IBaseStore<OrderItemEntity>
+	public interface IOrderItemStore : IBaseStore<OrderItemEntity,int>
 	{
 		Task<List<OrderItemEntity>> GetOrderItemsAsync(int orderId);
 		Task AddOrderItemsAsync(List<OrderItemEntity> items);

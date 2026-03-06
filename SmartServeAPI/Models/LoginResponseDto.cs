@@ -1,4 +1,4 @@
-﻿using SmartServe.EFCore.Models;
+﻿using SmartServe.EFCore.Entities;
 
 namespace SmartServe.API.Models
 {

@@ -2,7 +2,7 @@
 using SmartServe.Domain.Constants;
 using SmartServe.Domain.Models;
 using SmartServe.Domain.Stores;
-using SmartServe.EFCore.Models;
+using SmartServe.EFCore.Entities;
 using System.Collections.Generic;
 
 namespace SmartServe.Domain.Services
