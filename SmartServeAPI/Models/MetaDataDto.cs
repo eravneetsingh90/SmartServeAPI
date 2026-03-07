@@ -6,6 +6,7 @@ namespace SmartServe.API.Models
     {
         [JsonPropertyName("resultCode")]
         public string ResultCode { get; set; }
+        [JsonPropertyName("resultMessage")]
         public string ResultMessage { get; set; }
     }
 }
