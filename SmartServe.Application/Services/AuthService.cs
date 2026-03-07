@@ -2,17 +2,20 @@
 using SmartServe.Application.Interfaces;
 using SmartServe.Application.Models;
 using SmartServe.Domain.Constants;
+using SmartServe.Domain.Interfaces;
 using SmartServe.Domain.Stores;
 
 namespace SmartServe.Application.Services
 {
     public class AuthService : IAuthService
     {
+        private readonly ICurrentUser _currentUser;
         private readonly IUserStore _userStore;
         private readonly IJwtTokenGenerator _jwtTokenGenerator;
 
-        public AuthService(IUserStore userStore, IJwtTokenGenerator jwtTokenGenerator)
+        public AuthService(ICurrentUser currentUser, IUserStore userStore, IJwtTokenGenerator jwtTokenGenerator)
         {
+            _currentUser = currentUser;
             _userStore = userStore;
             _jwtTokenGenerator = jwtTokenGenerator;
         }
@@ -25,7 +28,12 @@ namespace SmartServe.Application.Services
             {
                 return WithMappedError(response, ResultCodes.DataValidationError, ResultMessages.DataValidationError);
             }
-            var user = await _userStore.GetActiveUserByUsernameAsync(request.Username);
+            var tenantId = _currentUser.TenantId ?? 0;
+
+            if (tenantId == 0)
+                return WithMappedError(response, ResultCodes.LoginError, ResultMessages.LoginError);
+
+            var user = await _userStore.GetActiveUserByUsernameAsync(request.Username, tenantId);
             if (user == null)
                 return WithMappedError(response, ResultCodes.LoginError, ResultMessages.LoginError);
             else if (!string.IsNullOrWhiteSpace(request.Pin) && !PinHasher.Verify(request.Pin, user.PinHash))

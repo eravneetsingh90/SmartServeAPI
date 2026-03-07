@@ -2,16 +2,14 @@
 {
     public class LoginResponseDto
     {
-        public int Id { get; set; }
+        public string AccessToken { get; set; } = default!;
 
-        public string Name { get; set; } = null!;
+        public DateTime ExpiresAt { get; set; }
 
-        public int? RoleId { get; set; }
+        public string Username { get; set; } = default!;
 
-        public string? PinHash { get; set; }
+        public string Role { get; set; } = default!;
 
-        public bool? IsActive { get; set; }
 
-        
     }
 }

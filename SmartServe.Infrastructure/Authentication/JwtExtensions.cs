@@ -1,5 +1,7 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
 namespace SmartServe.Infrastructure.Authentication
@@ -19,29 +21,29 @@ namespace SmartServe.Infrastructure.Authentication
 
             var key = Encoding.UTF8.GetBytes(jwtSettings.Key);
 
-            //services
-            //    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            //    .AddJwtBearer(options =>
-            //    {
-            //        options.RequireHttpsMetadata = true;
-            //        options.SaveToken = false;
+            services
+                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.RequireHttpsMetadata = true;
+                    options.SaveToken = false;
 
-            //        options.TokenValidationParameters = new TokenValidationParameters
-            //        {
-            //            ValidateIssuer = true,
-            //            ValidateAudience = true,
-            //            ValidateLifetime = true,
-            //            ValidateIssuerSigningKey = true,
-            //            ClockSkew = TimeSpan.Zero,
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ClockSkew = TimeSpan.Zero,
 
-            //            ValidIssuer = jwtSettings.Issuer,
-            //            ValidAudience = jwtSettings.Audience,
+                        ValidIssuer = jwtSettings.Issuer,
+                        ValidAudience = jwtSettings.Audience,
 
-            //            IssuerSigningKey = new SymmetricSecurityKey(key)
-            //        };
-            //    });
+                        IssuerSigningKey = new SymmetricSecurityKey(key)
+                    };
+                });
 
-            //services.AddAuthorization();
+            services.AddAuthorization();
 
             return services;
         }

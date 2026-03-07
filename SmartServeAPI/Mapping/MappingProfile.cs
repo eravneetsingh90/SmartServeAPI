@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using SmartServe.API.Models;
+using SmartServe.Application.Models;
 
 namespace SmartServe.API.Mapping
 {
@@ -7,7 +8,8 @@ namespace SmartServe.API.Mapping
     {
         public MappingProfile()
         {
-            //CreateMap<LoginResponse, LoginResponseDto>().ReverseMap();
+            CreateMap<LoginRequest, LoginRequestDto>().ReverseMap();
+            CreateMap<LoginResponse, LoginResponseDto>().ReverseMap();
 
         }
     }

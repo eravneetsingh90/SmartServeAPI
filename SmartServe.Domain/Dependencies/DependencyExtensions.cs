@@ -5,7 +5,7 @@ namespace SmartServe.Domain.Dependencies
 {
 	public static class DependencyExtensions
 	{
-		public static IServiceCollection UseDomain(
+		public static IServiceCollection AddDomain(
 			this IServiceCollection services)
 		{
 			//mapping profiles

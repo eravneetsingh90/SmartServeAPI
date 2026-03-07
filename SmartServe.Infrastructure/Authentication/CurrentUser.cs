@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
-using SmartServe.Application.Interfaces;
+using SmartServe.Domain.Interfaces;
 using System.Security.Claims;
 
 namespace SmartServe.Infrastructure.Authentication
 {
 
-    public sealed class CurrentUser : ICurrentUser
+    public class CurrentUser : ICurrentUser
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
 
@@ -16,15 +16,16 @@ namespace SmartServe.Infrastructure.Authentication
 
         private ClaimsPrincipal? User => _httpContextAccessor.HttpContext?.User;
 
-        public bool IsAuthenticated =>
-            User?.Identity?.IsAuthenticated ?? false;
-
-        public Guid? UserId
+        public int? UserId
         {
             get
             {
-                var value = User?.FindFirstValue(ClaimTypes.NameIdentifier);
-                return Guid.TryParse(value, out var id) ? id : null;
+                var userId = User?.FindFirst("userId")?.Value;
+
+                if (int.TryParse(userId, out var id))
+                    return id;
+
+                return null;
             }
         }
 
@@ -34,12 +35,24 @@ namespace SmartServe.Infrastructure.Authentication
         public string? Role =>
             User?.FindFirstValue(ClaimTypes.Role);
 
-        public Guid? TenantId
+        public int? TenantId
         {
             get
             {
-                var value = User?.FindFirstValue("TenantId");
-                return Guid.TryParse(value, out var id) ? id : null;
+                var value = _httpContextAccessor.HttpContext?.Items["TenantId"];
+
+                if (value == null)
+                    return null;
+
+                return (int)value;
+            }
+        }
+
+        public string? TenantCode
+        {
+            get
+            {
+                return _httpContextAccessor.HttpContext?.Items["TenantCode"]?.ToString();
             }
         }
     }

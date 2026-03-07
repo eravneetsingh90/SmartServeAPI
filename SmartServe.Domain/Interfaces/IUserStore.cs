@@ -5,6 +5,6 @@ namespace SmartServe.Domain.Stores
 {
 	public interface IUserStore : IBaseStore<User,int>
 	{
-		Task<User?> GetActiveUserByUsernameAsync(string username);
+		Task<User?> GetActiveUserByUsernameAsync(string username,int tenantId);
 	}
 }

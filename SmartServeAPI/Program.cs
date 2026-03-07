@@ -2,8 +2,8 @@ using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.Elasticsearch;
 using SmartServe.API.Dependencies;
-using SmartServe.API.Middleware;
 using SmartServe.Infrastructure.Authentication;
+using SmartServe.Infrastructure.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -67,6 +67,7 @@ var app = builder.Build();
     app.UseSwaggerUI();
 //}
 
+app.UseMiddleware<TenantMiddleware>();
 app.UseMiddleware<SingleLogMiddleware>();
 
 app.UseHttpsRedirection();

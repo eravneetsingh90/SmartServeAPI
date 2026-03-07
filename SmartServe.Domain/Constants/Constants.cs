@@ -1,5 +1,10 @@
 ﻿namespace SmartServe.Domain.Constants
 {
+    public static class ContextKeys
+    {
+        public const string TenantId = "TenantId";
+        public const string TenantCode = "TenantCode";
+    }
     public static class ResultCodes
     {
         public const string Success = "R00";

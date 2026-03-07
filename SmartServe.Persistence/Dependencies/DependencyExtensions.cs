@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SmartServe.Domain.Interfaces;
 using SmartServe.Domain.Stores;
 using SmartServe.EFCore.Db;
 using SmartServe.Persistence.Stores;
@@ -19,9 +20,12 @@ namespace SmartServe.Persistence.Dependencies
 					configuration.GetConnectionString("SmartServeDb")
 				);
 			});
-            //stores
-            services.AddScoped<IUserStore, UserStore>();
+            
+			//stores
             services.AddScoped<IUnitOfWork,UnitOfWork>();
+            services.AddScoped<IUserStore, UserStore>();
+            services.AddScoped<ITenantStore, TenantStore>();
+
             return services;
 		}
 	}

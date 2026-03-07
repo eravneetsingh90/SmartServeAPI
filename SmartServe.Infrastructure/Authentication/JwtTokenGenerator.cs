@@ -21,9 +21,9 @@ namespace SmartServe.Infrastructure.Authentication
         {
             var claims = new List<Claim>
         {
-            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-            new Claim(ClaimTypes.Name, user.Username),
-            new Claim(ClaimTypes.Role, user.Role.RoleName),
+            new Claim("UserId", user.Id.ToString()),
+            new Claim("Username", user.Username),
+            new Claim("Role", user.Role.RoleName),
             new Claim("TenantId", user.Tenant.Id.ToString())
         };
 

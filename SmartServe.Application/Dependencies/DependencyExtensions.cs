@@ -6,7 +6,7 @@ namespace SmartServe.Application.Dependencies
 {
     public static class DependencyExtensions
     {
-        public static IServiceCollection UseApplication(
+        public static IServiceCollection AddApplication(
             this IServiceCollection services)
         {
             //services

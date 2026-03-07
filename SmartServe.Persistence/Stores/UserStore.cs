@@ -12,13 +12,15 @@ namespace SmartServe.Persistence.Stores
 		{
 		}
 
-		public async Task<User?> GetActiveUserByUsernameAsync(string username)
+		public async Task<User?> GetActiveUserByUsernameAsync(string username,int tenantId)
 		{
 			var result = await Set
 				.AsNoTracking()
 				.Include(u=>u.Role)
-				.FirstOrDefaultAsync(u =>
-					u.Name == username &&
+                .Include(u => u.Tenant)
+                .FirstOrDefaultAsync(u =>
+					u.Username == username &&
+					u.TenantId == tenantId &&
 					u.IsActive == true);
 			return result;
 		}

@@ -1,7 +1,9 @@
-﻿using SmartServe.Application.Models;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
+using SmartServe.Application.Models;
 using SmartServe.Domain.Constants;
 
-namespace SmartServe.API.Middleware
+namespace SmartServe.Infrastructure.Middleware
 {
     public class SingleLogMiddleware
     {
@@ -52,7 +54,7 @@ namespace SmartServe.API.Middleware
                     ResultMessage = ResultMessages.Error
                 });
 
-                return; 
+                return;
             }
         }
     }

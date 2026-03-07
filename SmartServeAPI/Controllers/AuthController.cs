@@ -1,23 +1,30 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using SmartServe.API.Models;
 using SmartServe.Application.Interfaces;
+using SmartServe.Application.Models;
+using SmartServe.Domain.Constants;
 
 namespace SmartServe.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public sealed class AuthController : ControllerBase
+public class AuthController : ControllerBase
 {
+    private readonly IMapper _mapper;
     private readonly IAuthService _authService;
-    private readonly IJwtTokenGenerator _jwtTokenGenerator;
     private readonly ILogger<AuthController> _logger;
-    public AuthController(IAuthService authService,
+    
+    public AuthController(
+        IMapper mapper, 
+        IAuthService authService,
         IJwtTokenGenerator jwtTokenGenerator,
         ILogger<AuthController> logger)
     {
+        _mapper = mapper;
         _authService = authService;
-        _jwtTokenGenerator = jwtTokenGenerator;
         _logger = logger;
     }
 
@@ -25,45 +32,21 @@ public sealed class AuthController : ControllerBase
     [AllowAnonymous]
     [ProducesResponseType(typeof(LoginResponseDto), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(LoginResponseDto), StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult> Login([FromBody] LoginRequestDto request)
+    public async Task<ActionResult<BaseResponse<LoginResponseDto>>> Login([FromBody] LoginRequestDto request)
     {
         if (!ModelState.IsValid)
             return ValidationProblem(ModelState);
         
-        var response = await _authService.LoginAsync(new Application.Models.LoginRequest()
+        var response = await _authService.LoginAsync(_mapper.Map<LoginRequest>(request));
+
+        if (response.MetaData.ResultCode != ResultCodes.Success)
         {
-            Username = request.Username,
-            Pin = request.Pin,
-            Password = request.Password
-        });
+            return Unauthorized(new
+            {
+                message = "Invalid username or password"
+            });
+        }
 
-        //if (response.MetaData.ResultCode != ResultCodes.Success)
-        //{
-        //    _logger.LogWarning("Invalid login attempt for {Username}", request.Username);
-        //    return Unauthorized(new
-        //    {
-        //        message = "Invalid username or password"
-        //    });
-        //}
-
-        //var token = _jwtTokenGenerator.GenerateToken(user);
-        //    var token = _jwtTokenGenerator.GenerateToken(
-        //user.Id,
-        //user.Username,
-        //user.Role,
-        //user.TenantId);
-        //var token = _jwtTokenGenerator.GenerateToken(
-        //new Guid(),
-        //response.Data.Name,
-        //response.Data.Role,
-        //new Guid());
-        //_logger.LogInformation("User {UserId} logged in successfully", response.Data.Name);
-
-        //return Ok(new AuthResponseDto
-        //{
-        //    AccessToken = token,
-        //    ExpiresInMinutes = 60 // optionally fetch from JwtSettings
-        //});
-        return Ok();
+        return Ok(response);
     }
 }
