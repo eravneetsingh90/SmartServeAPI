@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SmartServe.Common\SmartServe.Common.csproj" />
+    <ProjectReference Include="..\SmartServe.Application\SmartServe.Application.csproj" />
     <ProjectReference Include="..\SmartServe.Persistence\SmartServe.Persistence.csproj" />
   </ItemGroup>
 
