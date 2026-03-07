@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SmartServe.Application\SmartServe.Application.csproj" />
+    <ProjectReference Include="..\SmartServe.Domain\SmartServe.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

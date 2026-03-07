@@ -21,7 +21,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SmartServe.Application\SmartServe.Application.csproj" />
-    <ProjectReference Include="..\SmartServe.Domain\SmartServe.Domain.csproj" />
     <ProjectReference Include="..\SmartServe.Persistence\SmartServe.Persistence.csproj" />
   </ItemGroup>
 

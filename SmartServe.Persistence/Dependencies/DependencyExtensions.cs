@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SmartServe.Domain.Stores;
 using SmartServe.EFCore.Db;
+using SmartServe.Persistence.UnitOfWork;
 
 namespace SmartServe.EFCore.Dependencies
 
