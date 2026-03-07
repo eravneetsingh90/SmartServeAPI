@@ -1,6 +1,4 @@
-﻿using SmartServe.EFCore.Entities;
-
-namespace SmartServe.API.Models
+﻿namespace SmartServe.API.Models
 {
     public class LoginResponseDto
     {

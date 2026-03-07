@@ -1,5 +1,4 @@
-﻿using SmartServe.API.Infrastructure;
-using SmartServe.API.Infrastructure.Authentication;
+﻿using SmartServe.API.Infrastructure.Authentication;
 using SmartServe.API.Mapping;
 using SmartServe.Domain.Dependencies;
 using SmartServe.EFCore.Dependencies;

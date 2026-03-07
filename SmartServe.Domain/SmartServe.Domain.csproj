@@ -13,7 +13,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SmartServe.Application\SmartServe.Application.csproj" />
-    <ProjectReference Include="..\SmartServe.Persistence\SmartServe.Persistence.csproj" />
   </ItemGroup>
 
 </Project>

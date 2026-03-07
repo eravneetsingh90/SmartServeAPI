@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SmartServe.EFCore.Entities;
-
+using SmartServe.Domain.Entities;
 namespace SmartServe.EFCore.Db;
 
 public partial class SmartServeDbContext : DbContext
@@ -14,37 +13,37 @@ public partial class SmartServeDbContext : DbContext
     {
     }
 
-    public virtual DbSet<BrandEntity> Brands { get; set; }
+    public virtual DbSet<Brand> Brands { get; set; }
 
-    public virtual DbSet<CategoryEntity> Categories { get; set; }
+    public virtual DbSet<Category> Categories { get; set; }
 
-    public virtual DbSet<OrderEntity> Orders { get; set; }
+    public virtual DbSet<Order> Orders { get; set; }
 
-    public virtual DbSet<OrderItemEntity> OrderItems { get; set; }
+    public virtual DbSet<OrderItem> OrderItems { get; set; }
 
-    public virtual DbSet<PaymentEntity> Payments { get; set; }
+    public virtual DbSet<Payment> Payments { get; set; }
 
-    public virtual DbSet<PermissionEntity> Permissions { get; set; }
+    public virtual DbSet<Permission> Permissions { get; set; }
 
-    public virtual DbSet<ProductEntity> Products { get; set; }
+    public virtual DbSet<Product> Products { get; set; }
 
-    public virtual DbSet<ProductIngredientEntity> ProductIngredients { get; set; }
+    public virtual DbSet<ProductIngredient> ProductIngredients { get; set; }
 
-    public virtual DbSet<ProductVariantEntity> ProductVariants { get; set; }
+    public virtual DbSet<ProductVariant> ProductVariants { get; set; }
 
-    public virtual DbSet<RestaurantTableEntity> RestaurantTables { get; set; }
+    public virtual DbSet<RestaurantTable> RestaurantTables { get; set; }
 
-    public virtual DbSet<RoleEntity> Roles { get; set; }
+    public virtual DbSet<Role> Roles { get; set; }
 
-    public virtual DbSet<StockEntity> Stocks { get; set; }
+    public virtual DbSet<Stock> Stocks { get; set; }
 
-    public virtual DbSet<StockTransactionEntity> StockTransactions { get; set; }
+    public virtual DbSet<StockTransaction> StockTransactions { get; set; }
 
-    public virtual DbSet<TableStatusEntity> TableStatuses { get; set; }
+    public virtual DbSet<TableStatus> TableStatuses { get; set; }
 
-    public virtual DbSet<TenantEntity> Tenants { get; set; }
+    public virtual DbSet<Tenant> Tenants { get; set; }
 
-    public virtual DbSet<UserEntity> Users { get; set; }
+    public virtual DbSet<User> Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -67,7 +66,7 @@ public partial class SmartServeDbContext : DbContext
             .HasPostgresExtension("graphql", "pg_graphql")
             .HasPostgresExtension("vault", "supabase_vault");
 
-        modelBuilder.Entity<BrandEntity>(entity =>
+        modelBuilder.Entity<Brand>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("brands_pkey");
 
@@ -97,7 +96,7 @@ public partial class SmartServeDbContext : DbContext
                 .HasConstraintName("brands_tenant_id_fkey");
         });
 
-        modelBuilder.Entity<CategoryEntity>(entity =>
+        modelBuilder.Entity<Category>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("categories_pkey");
 
@@ -130,7 +129,7 @@ public partial class SmartServeDbContext : DbContext
                 .HasConstraintName("categories_tenant_id_fkey");
         });
 
-        modelBuilder.Entity<OrderEntity>(entity =>
+        modelBuilder.Entity<Order>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("orders_pkey");
 
@@ -201,7 +200,7 @@ public partial class SmartServeDbContext : DbContext
                 .HasConstraintName("orders_tenant_id_fkey");
         });
 
-        modelBuilder.Entity<OrderItemEntity>(entity =>
+        modelBuilder.Entity<OrderItem>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("order_items_pkey");
 
@@ -242,7 +241,7 @@ public partial class SmartServeDbContext : DbContext
                 .HasConstraintName("order_items_variant_id_fkey");
         });
 
-        modelBuilder.Entity<PaymentEntity>(entity =>
+        modelBuilder.Entity<Payment>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("payments_pkey");
 
@@ -280,7 +279,7 @@ public partial class SmartServeDbContext : DbContext
                 .HasConstraintName("payments_tenant_id_fkey");
         });
 
-        modelBuilder.Entity<PermissionEntity>(entity =>
+        modelBuilder.Entity<Permission>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("permissions_pkey");
 
@@ -294,7 +293,7 @@ public partial class SmartServeDbContext : DbContext
                 .HasColumnName("permission_code");
         });
 
-        modelBuilder.Entity<ProductEntity>(entity =>
+        modelBuilder.Entity<Product>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("products_pkey");
 
@@ -336,7 +335,7 @@ public partial class SmartServeDbContext : DbContext
                 .HasConstraintName("products_tenant_id_fkey");
         });
 
-        modelBuilder.Entity<ProductIngredientEntity>(entity =>
+        modelBuilder.Entity<ProductIngredient>(entity =>
         {
             entity.HasKey(e => new { e.TenantId, e.ProductVariantId, e.IngredientVariantId }).HasName("product_ingredients_pkey");
 
@@ -366,7 +365,7 @@ public partial class SmartServeDbContext : DbContext
                 .HasConstraintName("product_ingredients_tenant_id_fkey");
         });
 
-        modelBuilder.Entity<ProductVariantEntity>(entity =>
+        modelBuilder.Entity<ProductVariant>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("product_variants_pkey");
 
@@ -415,7 +414,7 @@ public partial class SmartServeDbContext : DbContext
                 .HasConstraintName("product_variants_tenant_id_fkey");
         });
 
-        modelBuilder.Entity<RestaurantTableEntity>(entity =>
+        modelBuilder.Entity<RestaurantTable>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("restaurant_tables_pkey");
 
@@ -440,7 +439,7 @@ public partial class SmartServeDbContext : DbContext
                 .HasConstraintName("restaurant_tables_tenant_id_fkey");
         });
 
-        modelBuilder.Entity<RoleEntity>(entity =>
+        modelBuilder.Entity<Role>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("roles_pkey");
 
@@ -456,10 +455,10 @@ public partial class SmartServeDbContext : DbContext
             entity.HasMany(d => d.Permissions).WithMany(p => p.Roles)
                 .UsingEntity<Dictionary<string, object>>(
                     "RolePermission",
-                    r => r.HasOne<PermissionEntity>().WithMany()
+                    r => r.HasOne<Permission>().WithMany()
                         .HasForeignKey("PermissionId")
                         .HasConstraintName("role_permissions_permission_id_fkey"),
-                    l => l.HasOne<RoleEntity>().WithMany()
+                    l => l.HasOne<Role>().WithMany()
                         .HasForeignKey("RoleId")
                         .HasConstraintName("role_permissions_role_id_fkey"),
                     j =>
@@ -471,7 +470,7 @@ public partial class SmartServeDbContext : DbContext
                     });
         });
 
-        modelBuilder.Entity<StockEntity>(entity =>
+        modelBuilder.Entity<Stock>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("stock_pkey");
 
@@ -514,7 +513,7 @@ public partial class SmartServeDbContext : DbContext
                 .HasConstraintName("stock_variant_id_fkey");
         });
 
-        modelBuilder.Entity<StockTransactionEntity>(entity =>
+        modelBuilder.Entity<StockTransaction>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("stock_transactions_pkey");
 
@@ -551,7 +550,7 @@ public partial class SmartServeDbContext : DbContext
                 .HasConstraintName("stock_transactions_tenant_id_fkey");
         });
 
-        modelBuilder.Entity<TableStatusEntity>(entity =>
+        modelBuilder.Entity<TableStatus>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("table_status_pkey");
 
@@ -571,7 +570,7 @@ public partial class SmartServeDbContext : DbContext
                 .HasColumnName("status_name");
         });
 
-        modelBuilder.Entity<TenantEntity>(entity =>
+        modelBuilder.Entity<Tenant>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("tenants_pkey");
 
@@ -610,7 +609,7 @@ public partial class SmartServeDbContext : DbContext
                 .HasColumnName("updated_at");
         });
 
-        modelBuilder.Entity<UserEntity>(entity =>
+        modelBuilder.Entity<User>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("users_pkey");
 
@@ -663,10 +662,10 @@ public partial class SmartServeDbContext : DbContext
             entity.HasMany(d => d.Roles).WithMany(p => p.UsersNavigation)
                 .UsingEntity<Dictionary<string, object>>(
                     "UserRole",
-                    r => r.HasOne<RoleEntity>().WithMany()
+                    r => r.HasOne<Role>().WithMany()
                         .HasForeignKey("RoleId")
                         .HasConstraintName("user_roles_role_id_fkey"),
-                    l => l.HasOne<UserEntity>().WithMany()
+                    l => l.HasOne<User>().WithMany()
                         .HasForeignKey("UserId")
                         .HasConstraintName("user_roles_user_id_fkey"),
                     j =>

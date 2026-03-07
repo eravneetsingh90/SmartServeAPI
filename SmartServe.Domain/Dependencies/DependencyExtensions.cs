@@ -14,26 +14,7 @@ namespace SmartServe.Domain.Dependencies
 			services.AddAutoMapper(typeof(MappingProfile));
             //services
             services.AddScoped<IAuthService, AuthService>();
-            services.AddScoped<IStockService, StockService>();
-            services.AddScoped<IBillingService, BillingService>();
-            services.AddScoped<IProductService, ProductService>();
-            services.AddScoped<ICatalogService, CatalogService>();
-            services.AddScoped<IOrderReportService, OrderReportService>();
-            //stores
-            services.AddScoped<IProductStore, ProductStore>();
-			services.AddScoped<IProductVariantStore, ProductVariantStore>();
-			services.AddScoped<IUserStore,UserStore>();
-			services.AddScoped<IRestaurantTableStore, RestaurantTableStore>();
-			services.AddScoped<ICategoryStore, CategoryStore>();
-			services.AddScoped<IOrderItemStore, OrderItemStore>();
-			services.AddScoped<IOrderStore, OrderStore>();
-			services.AddScoped<IUnitOfWork, UnitOfWork>();
-			services.AddScoped<ITableStatusStore, TableStatusStore>();
-			services.AddScoped<IPaymentStore, PaymentStore>();
-			services.AddScoped<IBrandStore, BrandStore>();
-			services.AddScoped<IStockTransactionStore, StockTransactionStore>();
-			services.AddScoped<IProductIngredientStore, ProductIngredientStore>();
-			services.AddScoped <IStockStore,StockStore>();
+            
 			return services;
 		}
 	}

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using SmartServe.API.Infrastructure;
 using SmartServe.API.Infrastructure.Authentication;
@@ -33,16 +34,16 @@ public sealed class AuthController : ControllerBase
         if (!ModelState.IsValid)
             return ValidationProblem(ModelState);
 
-        var response = await _authService.LoginAsync(request.Username, request.Pin);
+        //var response = await _authService.LoginAsync(request.Username, request.Pin);
 
-        if (response.MetaData.ResultCode != ResultCodes.Success)
-        {
-            _logger.LogWarning("Invalid login attempt for {Username}", request.Username);
-            return Unauthorized(new
-            {
-                message = "Invalid username or password"
-            });
-        }
+        //if (response.MetaData.ResultCode != ResultCodes.Success)
+        //{
+        //    _logger.LogWarning("Invalid login attempt for {Username}", request.Username);
+        //    return Unauthorized(new
+        //    {
+        //        message = "Invalid username or password"
+        //    });
+        //}
 
         //var token = _jwtTokenGenerator.GenerateToken(user);
         //    var token = _jwtTokenGenerator.GenerateToken(
@@ -50,17 +51,18 @@ public sealed class AuthController : ControllerBase
         //user.Username,
         //user.Role,
         //user.TenantId);
-        var token = _jwtTokenGenerator.GenerateToken(
-        new Guid(),
-        response.Data.Name,
-        response.Data.Role,
-        new Guid());
-        _logger.LogInformation("User {UserId} logged in successfully", response.Data.Name);
+        //var token = _jwtTokenGenerator.GenerateToken(
+        //new Guid(),
+        //response.Data.Name,
+        //response.Data.Role,
+        //new Guid());
+        //_logger.LogInformation("User {UserId} logged in successfully", response.Data.Name);
 
-        return Ok(new AuthResponseDto
-        {
-            AccessToken = token,
-            ExpiresInMinutes = 60 // optionally fetch from JwtSettings
-        });
+        //return Ok(new AuthResponseDto
+        //{
+        //    AccessToken = token,
+        //    ExpiresInMinutes = 60 // optionally fetch from JwtSettings
+        //});
+        return Ok();
     }
 }

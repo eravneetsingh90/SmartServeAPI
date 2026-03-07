@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SmartServe.Resources\SmartServe.Infrastructure.csproj" />
+    <ProjectReference Include="..\SmartServe.Domain\SmartServe.Domain.csproj" />
   </ItemGroup>
 
 </Project>
