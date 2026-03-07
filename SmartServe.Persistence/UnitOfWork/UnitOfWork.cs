@@ -1,7 +1,7 @@
 ﻿using SmartServe.Domain.Stores;
 using SmartServe.EFCore.Db;
 
-namespace SmartServe.Persistence.UnitOfWork
+namespace SmartServe.Persistence
 {
 	public class UnitOfWork : IUnitOfWork
 	{

@@ -3,7 +3,7 @@ using SmartServe.Domain.Entities;
 using SmartServe.Domain.Stores.SmartServe.Domain.Stores;
 using SmartServe.EFCore.Db;
 
-namespace SmartServe.Domain.Stores
+namespace SmartServe.Persistence.Stores
 {
     public abstract class BaseStore<T, TKey> : IBaseStore<T, TKey> where T : class, IEntity<TKey>
     {

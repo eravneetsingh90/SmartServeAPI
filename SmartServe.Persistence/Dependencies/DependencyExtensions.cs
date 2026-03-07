@@ -3,14 +3,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SmartServe.Domain.Stores;
 using SmartServe.EFCore.Db;
-using SmartServe.Persistence.UnitOfWork;
-
-namespace SmartServe.EFCore.Dependencies
+using SmartServe.Persistence.Stores;
+namespace SmartServe.Persistence.Dependencies
 
 {
 	public static class DependencyExtensions
 	{
-		public static IServiceCollection UseEFCore(
+		public static IServiceCollection AddPersistence(
 			this IServiceCollection services,
 			IConfiguration configuration)
 		{
@@ -22,7 +21,7 @@ namespace SmartServe.EFCore.Dependencies
 			});
             //stores
             services.AddScoped<IUserStore, UserStore>();
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IUnitOfWork,UnitOfWork>();
             return services;
 		}
 	}

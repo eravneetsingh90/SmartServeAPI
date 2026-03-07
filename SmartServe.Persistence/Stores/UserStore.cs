@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SmartServe.Domain.Entities;
+using SmartServe.Domain.Stores;
 using SmartServe.EFCore.Db;
 
-namespace SmartServe.Domain.Stores
+namespace SmartServe.Persistence.Stores
 {
 	public class UserStore : BaseStore<User, int>, IUserStore
 	{
