@@ -1,5 +1,4 @@
-﻿using Swashbuckle.AspNetCore.Annotations;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace SmartServe.API.Models
 {
@@ -9,5 +8,7 @@ namespace SmartServe.API.Models
         public string? Username { get; set; }
         [JsonPropertyName("pin")]
         public string? Pin { get; set; }
+        [JsonPropertyName("password")]
+        public string? Password { get; set; }
     }
 }

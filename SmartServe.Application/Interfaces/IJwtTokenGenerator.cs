@@ -1,11 +1,9 @@
-﻿namespace SmartServe.Application.Interfaces
+﻿using SmartServe.Domain.Entities;
+
+namespace SmartServe.Application.Interfaces
 {
     public interface IJwtTokenGenerator
     {
-        string GenerateToken(
-            Guid userId,
-            string username,
-            string role,
-            Guid tenantId);
+        string GenerateToken(User user);
     }
 }

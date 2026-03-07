@@ -1,6 +1,6 @@
 ﻿using SmartServe.Domain.Constants;
 
-namespace SmartServe.Common.Models
+namespace SmartServe.Application.Models
 {
     public class BaseResponse<T> : BaseResponse
     {

@@ -29,8 +29,13 @@ public sealed class AuthController : ControllerBase
     {
         if (!ModelState.IsValid)
             return ValidationProblem(ModelState);
-
-        //var response = await _authService.LoginAsync(request.Username, request.Pin);
+        
+        var response = await _authService.LoginAsync(new Application.Models.LoginRequest()
+        {
+            Username = request.Username,
+            Pin = request.Pin,
+            Password = request.Password
+        });
 
         //if (response.MetaData.ResultCode != ResultCodes.Success)
         //{

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using SmartServe.Application.Interfaces;
+using SmartServe.Domain.Entities;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -16,18 +17,14 @@ namespace SmartServe.Infrastructure.Authentication
             _settings = options.Value;
         }
 
-        public string GenerateToken(
-            Guid userId,
-            string username,
-            string role,
-            Guid tenantId)
+        public string GenerateToken(User user)
         {
             var claims = new List<Claim>
         {
-            new Claim(ClaimTypes.NameIdentifier, userId.ToString()),
-            new Claim(ClaimTypes.Name, username),
-            new Claim(ClaimTypes.Role, role),
-            new Claim("TenantId", tenantId.ToString())
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+            new Claim(ClaimTypes.Name, user.Username),
+            new Claim(ClaimTypes.Role, user.Role.RoleName),
+            new Claim("TenantId", user.Tenant.Id.ToString())
         };
 
             var key = new SymmetricSecurityKey(
