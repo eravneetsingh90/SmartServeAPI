@@ -1,4 +1,4 @@
-﻿namespace SmartServe.Common.Models
+﻿namespace SmartServe.Application.Models
 {
     public class RequestLogContext
     {

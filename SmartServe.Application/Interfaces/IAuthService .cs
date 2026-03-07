@@ -1,4 +1,4 @@
-﻿namespace SmartServe.Domain.Services
+﻿namespace SmartServe.Application.Interfaces
 {
 	public interface IAuthService
 	{

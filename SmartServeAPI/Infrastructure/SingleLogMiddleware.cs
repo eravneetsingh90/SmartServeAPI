@@ -1,4 +1,4 @@
-﻿using SmartServe.Common.Models;
+﻿using SmartServe.Application.Models;
 using SmartServe.Domain.Constants;
 
 namespace SmartServe.API.Middleware

@@ -1,6 +1,7 @@
-﻿using SmartServe.Domain.Stores;
+﻿using SmartServe.Application.Interfaces;
+using SmartServe.Domain.Stores;
 
-namespace SmartServe.Domain.Services
+namespace SmartServe.Application.Services
 {
     public class AuthService : IAuthService
     {

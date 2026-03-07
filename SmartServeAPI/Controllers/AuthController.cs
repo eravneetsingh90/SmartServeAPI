@@ -1,11 +1,8 @@
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using SmartServe.API.Infrastructure;
 using SmartServe.API.Infrastructure.Authentication;
 using SmartServe.API.Models;
-using SmartServe.Domain.Constants;
-using SmartServe.Domain.Services;
+using SmartServe.Application.Interfaces;
 
 namespace SmartServe.API.Controllers;
 
