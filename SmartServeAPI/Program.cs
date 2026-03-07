@@ -3,7 +3,7 @@ using Serilog.Events;
 using Serilog.Sinks.Elasticsearch;
 using SmartServe.API.Dependencies;
 using SmartServe.API.Middleware;
-using SmartServe.API.Infrastructure.Authentication;
+using SmartServe.Infrastructure.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
 

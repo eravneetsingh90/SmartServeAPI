@@ -1,4 +1,4 @@
-﻿namespace SmartServe.API.Infrastructure.Authentication
+﻿namespace SmartServe.Infrastructure.Authentication
 {
     public sealed class JwtSettings
     {

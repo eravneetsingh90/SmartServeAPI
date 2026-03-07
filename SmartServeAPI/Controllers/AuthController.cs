@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SmartServe.API.Infrastructure.Authentication;
 using SmartServe.API.Models;
 using SmartServe.Application.Interfaces;
 
