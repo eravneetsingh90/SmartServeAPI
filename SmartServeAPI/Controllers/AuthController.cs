@@ -6,6 +6,7 @@ using SmartServe.API.Models;
 using SmartServe.Application.Interfaces;
 using SmartServe.Application.Models;
 using SmartServe.Domain.Constants;
+using SmartServe.Infrastructure.Logging;
 
 namespace SmartServe.API.Controllers;
 
@@ -13,6 +14,7 @@ namespace SmartServe.API.Controllers;
 [Route("api/[controller]")]
 public class AuthController : ControllerBase
 {
+
     private readonly IMapper _mapper;
     private readonly IAuthService _authService;
     private readonly ILogger<AuthController> _logger;
@@ -39,12 +41,12 @@ public class AuthController : ControllerBase
         
         var response = await _authService.LoginAsync(_mapper.Map<LoginRequest>(request));
 
+        HttpContext.CreateAnnotation(Annotations.ResultCode, response.MetaData.ResultCode);
+        HttpContext.CreateAnnotation(Annotations.ResultMessage, response.MetaData.ResultMessage);
+        
         if (response.MetaData.ResultCode != ResultCodes.Success)
         {
-            return Unauthorized(new
-            {
-                message = "Invalid username or password"
-            });
+            return Unauthorized(response);
         }
 
         return Ok(response);

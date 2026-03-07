@@ -28,6 +28,8 @@
     {
         public const string ResultCode = "ResultCode";
         public const string ResultMessage = "ResultMessages";
+        public const string UserId = "UserId";
+        public const string TenantCode = "TenantCode";
     }
     public static class TableStatusCodes
 	{

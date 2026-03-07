@@ -30,7 +30,8 @@ namespace SmartServe.Infrastructure.Middleware
                 await _next(context);
 
                 logContext.StatusCode = context.Response.StatusCode;
-
+                logContext.TenantCode = (string?)context.Items[ContextKeys.TenantCode];
+                
                 _logger.LogInformation(
                     "API Completed {@RequestLog}",
                     logContext);
