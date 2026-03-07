@@ -7,11 +7,11 @@ using SmartServe.Infrastructure.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
-#region Serilog Configuration
+#region Logging (Serilog)
 
-builder.Host.UseSerilog((context, services, configuration) =>
+builder.Host.UseSerilog((context, services, config) =>
 {
-    configuration
+    config
         .MinimumLevel.Information()
         .MinimumLevel.Override("Microsoft", LogEventLevel.Error)
         .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Error)
@@ -27,8 +27,9 @@ builder.Host.UseSerilog((context, services, configuration) =>
             rollingInterval: RollingInterval.Day,
             retainedFileCountLimit: 30,
             restrictedToMinimumLevel: LogEventLevel.Information)
-        
-        .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri(context.Configuration["ElasticConfiguration:Uri"]))
+
+        .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(
+            new Uri(context.Configuration["ElasticConfiguration:Uri"]))
         {
             AutoRegisterTemplate = true,
             IndexFormat = "smartserve-logs-{0:yyyy.MM}",
@@ -39,19 +40,19 @@ builder.Host.UseSerilog((context, services, configuration) =>
 #endregion
 
 #region Services
+
 builder.Services.UseApi(builder.Configuration);
+
 builder.Services
     .AddControllers()
     .AddJsonOptions(options =>
     {
-        // Ensure camelCase globally
         options.JsonSerializerOptions.PropertyNamingPolicy =
             System.Text.Json.JsonNamingPolicy.CamelCase;
     });
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-//builder.Services.AddSingleton(builder.Configuration);
 
 builder.Services.AddJwtAuthentication(builder.Configuration);
 
@@ -59,19 +60,22 @@ builder.Services.AddJwtAuthentication(builder.Configuration);
 
 var app = builder.Build();
 
-#region Pipeline
+#region Middleware Pipeline
 
-//if (app.Environment.IsDevelopment())
-//{
+// Swagger
+if (app.Environment.IsDevelopment())
+{
     app.UseSwagger();
     app.UseSwaggerUI();
-//}
+}
 
-app.UseMiddleware<TenantMiddleware>();
+// Global logging (first)
 app.UseMiddleware<SingleLogMiddleware>();
 
-app.UseHttpsRedirection();
+// Tenant resolution
+app.UseMiddleware<TenantMiddleware>();
 
+app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
@@ -79,6 +83,8 @@ app.UseAuthorization();
 app.MapControllers();
 
 #endregion
+
+#region Application Start
 
 try
 {
@@ -93,3 +99,5 @@ finally
 {
     Log.CloseAndFlush();
 }
+
+#endregion
