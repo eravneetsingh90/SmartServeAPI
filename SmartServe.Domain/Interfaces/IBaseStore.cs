@@ -4,8 +4,8 @@
 	{
 		public interface IBaseStore<T, TKey> where T : class
 		{
-			Task<List<T>> GetAllAsync();
-			Task<T?> GetByIdAsync(TKey id);
+			Task<List<T>> GetAllAsync(int tenantId);
+			Task<T?> GetByIdAsync(int tenantId,TKey id);
 			void Add(T entity);
 			void AddRange(List<T> entities);
 			void Update(T entity);

@@ -8,6 +8,7 @@ namespace SmartServe.API.Mapping
     {
         public MappingProfile()
         {
+            CreateMap<BaseResponse, BaseResponseDto>().ReverseMap();
             CreateMap<LoginRequest, LoginRequestDto>().ReverseMap();
             CreateMap<LoginResponse, LoginResponseDto>().ReverseMap();
 

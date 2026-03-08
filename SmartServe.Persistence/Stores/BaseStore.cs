@@ -18,12 +18,12 @@ namespace SmartServe.Persistence.Stores
 
 		// ================= READ =================
 
-		public virtual async Task<List<T>> GetAllAsync()
+		public virtual async Task<List<T>> GetAllAsync(int tenantId)
 		{
 			return await Set.AsNoTracking().ToListAsync();
 		}
 
-		public virtual async Task<T?> GetByIdAsync(TKey id)
+		public virtual async Task<T?> GetByIdAsync(int tenantId, TKey id)
         {
             return await Set
                 .AsNoTracking()

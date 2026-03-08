@@ -1,6 +1,5 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using SmartServe.API.Models;
 using SmartServe.Application.Interfaces;
@@ -12,7 +11,7 @@ namespace SmartServe.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class AuthController : ControllerBase
+public class AuthController : BaseController
 {
 
     private readonly IMapper _mapper;
@@ -34,7 +33,7 @@ public class AuthController : ControllerBase
     [AllowAnonymous]
     [ProducesResponseType(typeof(LoginResponseDto), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(LoginResponseDto), StatusCodes.Status401Unauthorized)]
-    public async Task<ActionResult<BaseResponse<LoginResponseDto>>> Login([FromBody] LoginRequestDto request)
+    public async Task<ActionResult<BaseResponseDto<LoginResponseDto>>> Login([FromBody] LoginRequestDto request)
     {
         if (!ModelState.IsValid)
             return ValidationProblem(ModelState);
