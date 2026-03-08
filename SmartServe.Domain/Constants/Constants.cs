@@ -70,7 +70,7 @@
 		public const string ML = "ML";
 		public const string GM = "GM";
 	}
-    public static class Role
+    public static class RoleType
     {
         public const string SuperAdmin = "SuperAdmin";
         public const string Admin = "Admin";

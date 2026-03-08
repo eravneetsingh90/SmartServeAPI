@@ -28,6 +28,30 @@ namespace SmartServe.API.Controllers
         }
 
         [Authorize]
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var response = new BaseResponseDto<CategoryDto>();
+
+            var category = await _store.GetByIdAsync(_currentUser.TenantId.Value, id);
+
+            if (category == null)
+            {
+                HttpContext.CreateAnnotation(Annotations.ResultCode, ResultCodes.RecordNotFound);
+                HttpContext.CreateAnnotation(Annotations.ResultMessage, ResultMessages.RecordNotFound);
+
+                return Ok(WithMappedError(response, ResultCodes.RecordNotFound, ResultMessages.RecordNotFound));
+            }
+
+            response.Data = _mapper.Map<CategoryDto>(category);
+
+            HttpContext.CreateAnnotation(Annotations.ResultCode, ResultCodes.Success);
+            HttpContext.CreateAnnotation(Annotations.ResultMessage, ResultMessages.Success);
+
+            return Ok(response);
+        }
+
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -49,7 +73,7 @@ namespace SmartServe.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize("Admin")]
+        [Authorize(RoleType.Admin)]
         public async Task<IActionResult> Delete(int id)
         {
             var response = new BaseResponseDto<BlankClass>();
@@ -67,6 +91,57 @@ namespace SmartServe.API.Controllers
 
             HttpContext.CreateAnnotation(Annotations.ResultCode, ResultCodes.Success);
             HttpContext.CreateAnnotation(Annotations.ResultMessage, ResultCodes.Success);
+
+            return Ok(response);
+        }
+
+        [HttpPost]
+        [Authorize(RoleType.Admin, RoleType.Manager)]
+        public async Task<IActionResult> Create(CategoryCreateRequestDto request)
+        {
+            var response = new BaseResponseDto<CategoryDto>();
+
+            var category = _mapper.Map<Category>(request);
+            category.TenantId = _currentUser.TenantId.Value;
+            category.CreatedAt = DateTime.UtcNow;
+            category.UpdatedAt = DateTime.UtcNow;
+
+            await _store.AddAsync(category);
+            await _store.SaveAsync();
+
+            response.Data = _mapper.Map<CategoryDto>(category);
+
+            HttpContext.CreateAnnotation(Annotations.ResultCode, ResultCodes.Success);
+            HttpContext.CreateAnnotation(Annotations.ResultMessage, ResultMessages.Success);
+
+            return Ok(response);
+        }
+
+        [HttpPut("{id}")]
+        [Authorize(RoleType.Admin, RoleType.Manager)]
+        public async Task<IActionResult> Update(int id, CategoryUpdateRequestDto request)
+        {
+            var response = new BaseResponseDto<CategoryDto>();
+
+            var category = await _store.GetByIdAsync(_currentUser.TenantId.Value, id);
+
+            if (category == null)
+            {
+                HttpContext.CreateAnnotation(Annotations.ResultCode, ResultCodes.RecordNotFound);
+                HttpContext.CreateAnnotation(Annotations.ResultMessage, ResultMessages.RecordNotFound);
+
+                return BadRequest(WithMappedError(response, ResultCodes.RecordNotFound, ResultMessages.RecordNotFound));
+            }
+
+            _mapper.Map(request, category);
+            category.UpdatedAt = DateTime.UtcNow;
+
+            await _store.SaveAsync();
+
+            response.Data = _mapper.Map<CategoryDto>(category);
+
+            HttpContext.CreateAnnotation(Annotations.ResultCode, ResultCodes.Success);
+            HttpContext.CreateAnnotation(Annotations.ResultMessage, ResultMessages.Success);
 
             return Ok(response);
         }
