@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
 using System.Text;
 
 namespace SmartServe.Infrastructure.Authentication
@@ -38,7 +39,7 @@ namespace SmartServe.Infrastructure.Authentication
 
                         ValidIssuer = jwtSettings.Issuer,
                         ValidAudience = jwtSettings.Audience,
-
+                        RoleClaimType = ClaimTypes.Role,
                         IssuerSigningKey = new SymmetricSecurityKey(key)
                     };
                 });

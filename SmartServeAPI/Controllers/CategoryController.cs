@@ -1,40 +1,55 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using SmartServe.API.Models;
 using SmartServe.Domain.Constants;
+using SmartServe.Domain.Entities;
 using SmartServe.Domain.Interfaces;
+using SmartServe.Infrastructure.Authorization;
 using SmartServe.Infrastructure.Logging;
 
 namespace SmartServe.API.Controllers
 {
     [ApiController]
     [Route("api/categories")]
-    [Authorize]
     public class CategoryController : BaseController
     {
+        private readonly IMapper _mapper;
         private readonly ICategoryStore _store;
         private readonly ICurrentUser _currentUser;
 
         public CategoryController(
-        ICategoryStore store,
-        ICurrentUser currentUser)
+            IMapper mapper,
+            ICategoryStore store,
+            ICurrentUser currentUser)
         {
+            _mapper = mapper;
             _store = store;
             _currentUser = currentUser;
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
+            var response = new BaseResponseDto<List<CategoryDto>>();
             var categories = await _store.GetAllAsync(_currentUser.TenantId.Value);
 
+            if (categories == null || categories.Count <= 0)
+            {
+                HttpContext.CreateAnnotation(Annotations.ResultCode, ResultCodes.RecordNotFound);
+                HttpContext.CreateAnnotation(Annotations.ResultMessage, ResultCodes.RecordNotFound);
+                return Ok(WithMappedError(response, ResultCodes.RecordNotFound, ResultMessages.RecordNotFound));
+            }
+
+            response.Data = _mapper.Map<List<CategoryDto>>(categories);
             HttpContext.CreateAnnotation(Annotations.ResultCode, ResultCodes.Success);
             HttpContext.CreateAnnotation(Annotations.ResultMessage, ResultCodes.Success);
 
-            return Ok(categories);
+            return Ok(response);
         }
 
         [HttpDelete("{id}")]
+        [Authorize("Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var response = new BaseResponseDto<BlankClass>();
