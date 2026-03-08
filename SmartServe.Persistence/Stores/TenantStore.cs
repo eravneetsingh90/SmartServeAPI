@@ -1,23 +1,21 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SmartServe.Domain.Entities;
 using SmartServe.Domain.Interfaces;
-using SmartServe.Domain.Stores;
 using SmartServe.EFCore.Db;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SmartServe.Persistence.Stores
 {
-    public class TenantStore : BaseStore<Tenant, int>, ITenantStore
+    public class TenantStore : ITenantStore
     {
+        protected readonly SmartServeDbContext Db;
+
         public TenantStore(SmartServeDbContext db)
-            : base(db)
         {
+            Db = db;
         }
         public async Task<Tenant?> GetTenantByCode(string tenantCode)
         {
-            return await Set
+            return await Db.Tenants
                 .AsNoTracking()
                 .FirstOrDefaultAsync(t =>
                     t.Subdomain == tenantCode &&

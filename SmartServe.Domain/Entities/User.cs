@@ -1,6 +1,8 @@
-﻿namespace SmartServe.Domain.Entities;
+﻿using SmartServe.Domain.Interfaces;
 
-public partial class User : IEntity<int>
+namespace SmartServe.Domain.Entities;
+
+public partial class User : IEntity<int>, ITenantEntity
 {
     public int Id { get; set; }
 

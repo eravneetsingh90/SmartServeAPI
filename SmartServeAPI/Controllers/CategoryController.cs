@@ -106,7 +106,7 @@ namespace SmartServe.API.Controllers
             category.CreatedAt = DateTime.UtcNow;
             category.UpdatedAt = DateTime.UtcNow;
 
-            await _store.AddAsync(category);
+            _store.Add(category);
             await _store.SaveAsync();
 
             response.Data = _mapper.Map<CategoryDto>(category);
@@ -136,6 +136,7 @@ namespace SmartServe.API.Controllers
             _mapper.Map(request, category);
             category.UpdatedAt = DateTime.UtcNow;
 
+            _store.Update(category);
             await _store.SaveAsync();
 
             response.Data = _mapper.Map<CategoryDto>(category);

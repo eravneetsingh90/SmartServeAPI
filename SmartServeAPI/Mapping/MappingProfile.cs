@@ -13,6 +13,8 @@ namespace SmartServe.API.Mapping
             CreateMap<LoginRequest, LoginRequestDto>().ReverseMap();
             CreateMap<LoginResponse, LoginResponseDto>().ReverseMap();
             CreateMap<Category, CategoryDto>().ReverseMap();
+            CreateMap<Category, CategoryCreateRequestDto>().ReverseMap();
+            CreateMap<Category, CategoryUpdateRequestDto>().ReverseMap();
             
         }
     }

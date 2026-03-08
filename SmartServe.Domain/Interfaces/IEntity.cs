@@ -1,4 +1,4 @@
-﻿namespace SmartServe.Domain.Entities
+﻿namespace SmartServe.Domain.Interfaces
 {
     public interface IEntity<TKey>
     {

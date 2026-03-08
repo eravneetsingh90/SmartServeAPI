@@ -1,9 +1,10 @@
-﻿using System;
+﻿using SmartServe.Domain.Interfaces;
+using System;
 using System.Collections.Generic;
 
 namespace SmartServe.Domain.Entities;
 
-public partial class Brand : IEntity<int>
+public partial class Brand : IEntity<int>, ITenantEntity
 {
     public int Id { get; set; }
 

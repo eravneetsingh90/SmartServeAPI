@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SmartServe.Domain.Interfaces;
+using System;
 using System.Collections.Generic;
 
 namespace SmartServe.Domain.Entities;

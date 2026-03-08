@@ -1,9 +1,10 @@
-﻿using System;
+﻿using SmartServe.Domain.Interfaces;
+using System;
 using System.Collections.Generic;
 
 namespace SmartServe.Domain.Entities;
 
-public partial class Stock : IEntity<int>
+public partial class Stock : IEntity<int>, ITenantEntity
 {
     public int Id { get; set; }
 
