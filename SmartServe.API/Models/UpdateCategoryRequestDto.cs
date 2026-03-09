@@ -2,7 +2,7 @@
 
 namespace SmartServe.API.Models
 {
-    public class CategoryUpdateRequestDto
+    public class UpdateCategoryRequestDto
     {
         [Required]
         [StringLength(100)]

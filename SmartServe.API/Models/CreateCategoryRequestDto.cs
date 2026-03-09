@@ -2,7 +2,7 @@
 
 namespace SmartServe.API.Models
 {
-    public class CategoryCreateRequestDto
+    public class CreateCategoryRequestDto
     {
         [Required]
         [StringLength(100)]

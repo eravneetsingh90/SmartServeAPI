@@ -3,5 +3,5 @@
   <Project Path="SmartServe.Domain/SmartServe.Domain.csproj" />
   <Project Path="SmartServe.Infrastructure/SmartServe.Infrastructure.csproj" />
   <Project Path="SmartServe.Persistence/SmartServe.Persistence.csproj" />
-  <Project Path="SmartServeAPI/SmartServe.API.csproj" />
+  <Project Path="SmartServe.API/SmartServe.API.csproj" />
 </Solution>

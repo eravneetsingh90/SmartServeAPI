@@ -5,5 +5,6 @@ namespace SmartServe.Domain.Interfaces
 {
     public interface ICategoryStore : IBaseStore<Category, int>
     {
+        Task SaveBulkAsync(IEnumerable<Category> categories);
     }
 }

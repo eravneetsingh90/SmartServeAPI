@@ -13,9 +13,9 @@ namespace SmartServe.API.Mapping
             CreateMap<LoginRequest, LoginRequestDto>().ReverseMap();
             CreateMap<LoginResponse, LoginResponseDto>().ReverseMap();
             CreateMap<Category, CategoryDto>().ReverseMap();
-            CreateMap<Category, CategoryCreateRequestDto>().ReverseMap();
-            CreateMap<Category, CategoryUpdateRequestDto>().ReverseMap();
-            
+            CreateMap<Category, CreateCategoryRequestDto>().ReverseMap();
+            CreateMap<Category, UpdateCategoryRequestDto>().ReverseMap();
+            CreateMap<Category, BulkUpdateCategoryRequestDto>().ReverseMap();
         }
     }
 

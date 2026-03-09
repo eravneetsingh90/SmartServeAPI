@@ -76,7 +76,7 @@ namespace SmartServe.API.Controllers
         [Authorize(RoleType.Admin)]
         public async Task<IActionResult> Delete(int id)
         {
-            var response = new BaseResponseDto<BlankClass>();
+            var response = new BaseResponseDto<BlankDto>();
             var category = await _store.GetByIdAsync(_currentUser.TenantId.Value, id);
 
             if (category == null)
@@ -97,7 +97,7 @@ namespace SmartServe.API.Controllers
 
         [HttpPost]
         [Authorize(RoleType.Admin, RoleType.Manager)]
-        public async Task<IActionResult> Create(CategoryCreateRequestDto request)
+        public async Task<IActionResult> Create(CreateCategoryRequestDto request)
         {
             var response = new BaseResponseDto<CategoryDto>();
 
@@ -119,7 +119,7 @@ namespace SmartServe.API.Controllers
 
         [HttpPut("{id}")]
         [Authorize(RoleType.Admin, RoleType.Manager)]
-        public async Task<IActionResult> Update(int id, CategoryUpdateRequestDto request)
+        public async Task<IActionResult> Update(int id, UpdateCategoryRequestDto request)
         {
             var response = new BaseResponseDto<CategoryDto>();
 
@@ -140,6 +140,34 @@ namespace SmartServe.API.Controllers
             await _store.SaveAsync();
 
             response.Data = _mapper.Map<CategoryDto>(category);
+
+            HttpContext.CreateAnnotation(Annotations.ResultCode, ResultCodes.Success);
+            HttpContext.CreateAnnotation(Annotations.ResultMessage, ResultMessages.Success);
+
+            return Ok(response);
+        }
+
+        [HttpPost]
+        [Route("bulk/update")]
+        [Authorize(RoleType.Admin, RoleType.Manager)]
+        public async Task<IActionResult> BulkUpdate(List<BulkUpdateCategoryRequestDto> request)
+        {
+            var response = new BaseResponseDto<BlankDto>();
+
+            var categories = _mapper.Map<List<Category>>(request);
+            foreach (var category in categories)
+            {
+                if (category.Id == 0)
+                {
+                    category.TenantId = _currentUser.TenantId.Value;
+                    category.CreatedAt = DateTime.UtcNow;
+                    category.UpdatedAt = DateTime.UtcNow;
+                }
+                else
+                    category.UpdatedAt = DateTime.UtcNow;
+            }
+
+            await _store.SaveBulkAsync(categories);
 
             HttpContext.CreateAnnotation(Annotations.ResultCode, ResultCodes.Success);
             HttpContext.CreateAnnotation(Annotations.ResultMessage, ResultMessages.Success);
