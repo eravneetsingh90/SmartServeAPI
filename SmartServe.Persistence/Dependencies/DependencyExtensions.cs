@@ -26,6 +26,7 @@ namespace SmartServe.Persistence.Dependencies
             services.AddScoped<IUserStore, UserStore>();
             services.AddScoped<ITenantStore, TenantStore>();
             services.AddScoped<ICategoryStore, CategoryStore>();
+            services.AddScoped<IProductStore, ProductStore>();
 
             return services;
 		}

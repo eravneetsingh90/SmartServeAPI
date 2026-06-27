@@ -1,83 +1,190 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using SmartServe.API.Models;
+using SmartServe.Domain.Constants;
+using SmartServe.Domain.Entities;
+using SmartServe.Domain.Interfaces;
+using SmartServe.Infrastructure.Authorization;
+using SmartServe.Infrastructure.Logging;
 
 namespace SmartServe.API.Controllers
 {
-    public class ProductController : Controller
+    [ApiController]
+    [Route("api/products")]
+    public class ProductController : BaseController
     {
-        // GET: ProductController
-        public ActionResult Index()
+        private readonly IMapper _mapper;
+        private readonly IProductStore _store;
+        private readonly ICurrentUser _currentUser;
+
+        public ProductController(
+            IMapper mapper,
+            IProductStore store,
+            ICurrentUser currentUser)
         {
-            return View();
+            _mapper = mapper;
+            _store = store;
+            _currentUser = currentUser;
         }
 
-        // GET: ProductController/Details/5
-        public ActionResult Details(int id)
+        [Authorize]
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
         {
-            return View();
+            var response = new BaseResponseDto<ProductDto>();
+
+            var product = await _store.GetByIdAsync(_currentUser.TenantId.Value, id);
+
+            if (product == null)
+            {
+                HttpContext.CreateAnnotation(Annotations.ResultCode, ResultCodes.RecordNotFound);
+                HttpContext.CreateAnnotation(Annotations.ResultMessage, ResultMessages.RecordNotFound);
+
+                return Ok(WithMappedError(response, ResultCodes.RecordNotFound, ResultMessages.RecordNotFound));
+            }
+
+            response.Data = _mapper.Map<ProductDto>(product);
+
+            HttpContext.CreateAnnotation(Annotations.ResultCode, ResultCodes.Success);
+            HttpContext.CreateAnnotation(Annotations.ResultMessage, ResultMessages.Success);
+
+            return Ok(response);
         }
 
-        // GET: ProductController/Create
-        public ActionResult Create()
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
         {
-            return View();
+            var response = new BaseResponseDto<List<ProductDto>>();
+
+            var products = await _store.GetAllAsync(_currentUser.TenantId.Value);
+
+            if (products == null || products.Count == 0)
+            {
+                HttpContext.CreateAnnotation(Annotations.ResultCode, ResultCodes.RecordNotFound);
+                HttpContext.CreateAnnotation(Annotations.ResultMessage, ResultMessages.RecordNotFound);
+
+                return Ok(WithMappedError(response, ResultCodes.RecordNotFound, ResultMessages.RecordNotFound));
+            }
+
+            response.Data = _mapper.Map<List<ProductDto>>(products);
+
+            HttpContext.CreateAnnotation(Annotations.ResultCode, ResultCodes.Success);
+            HttpContext.CreateAnnotation(Annotations.ResultMessage, ResultMessages.Success);
+
+            return Ok(response);
         }
 
-        // POST: ProductController/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        [Authorize(RoleType.Admin, RoleType.Manager)]
+        public async Task<IActionResult> Create(CreateProductRequestDto request)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            var response = new BaseResponseDto<ProductDto>();
+
+            var product = _mapper.Map<Product>(request);
+
+            product.TenantId = _currentUser.TenantId.Value;
+            product.CreatedAt = DateTime.UtcNow;
+            product.UpdatedAt = DateTime.UtcNow;
+
+            _store.Add(product);
+            await _store.SaveAsync();
+
+            response.Data = _mapper.Map<ProductDto>(product);
+
+            HttpContext.CreateAnnotation(Annotations.ResultCode, ResultCodes.Success);
+            HttpContext.CreateAnnotation(Annotations.ResultMessage, ResultMessages.Success);
+
+            return Ok(response);
         }
 
-        // GET: ProductController/Edit/5
-        public ActionResult Edit(int id)
+        [HttpPut("{id}")]
+        [Authorize(RoleType.Admin, RoleType.Manager)]
+        public async Task<IActionResult> Update(int id, UpdateProductRequestDto request)
         {
-            return View();
+            var response = new BaseResponseDto<ProductDto>();
+
+            var product = await _store.GetByIdAsync(_currentUser.TenantId.Value, id);
+
+            if (product == null)
+            {
+                HttpContext.CreateAnnotation(Annotations.ResultCode, ResultCodes.RecordNotFound);
+                HttpContext.CreateAnnotation(Annotations.ResultMessage, ResultMessages.RecordNotFound);
+
+                return BadRequest(WithMappedError(response, ResultCodes.RecordNotFound, ResultMessages.RecordNotFound));
+            }
+
+            _mapper.Map(request, product);
+            product.UpdatedAt = DateTime.UtcNow;
+
+            _store.Update(product);
+            await _store.SaveAsync();
+
+            response.Data = _mapper.Map<ProductDto>(product);
+
+            HttpContext.CreateAnnotation(Annotations.ResultCode, ResultCodes.Success);
+            HttpContext.CreateAnnotation(Annotations.ResultMessage, ResultMessages.Success);
+
+            return Ok(response);
         }
 
-        // POST: ProductController/Edit/5
+        [HttpDelete("{id}")]
+        [Authorize(RoleType.Admin)]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var response = new BaseResponseDto<BlankDto>();
+
+            var product = await _store.GetByIdAsync(_currentUser.TenantId.Value, id);
+
+            if (product == null)
+            {
+                HttpContext.CreateAnnotation(Annotations.ResultCode, ResultCodes.RecordNotFound);
+                HttpContext.CreateAnnotation(Annotations.ResultMessage, ResultMessages.RecordNotFound);
+
+                return BadRequest(WithMappedError(response, ResultCodes.RecordNotFound, ResultMessages.RecordNotFound));
+            }
+
+            product.IsDeleted = true;
+            product.UpdatedAt = DateTime.UtcNow;
+
+            _store.Update(product);
+            await _store.SaveAsync();
+
+            HttpContext.CreateAnnotation(Annotations.ResultCode, ResultCodes.Success);
+            HttpContext.CreateAnnotation(Annotations.ResultMessage, ResultMessages.Success);
+
+            return Ok(response);
+        }
+
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        [Route("bulk/update")]
+        [Authorize(RoleType.Admin, RoleType.Manager)]
+        public async Task<IActionResult> BulkUpdate(List<BulkUpdateProductRequestDto> request)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+            var response = new BaseResponseDto<BlankDto>();
 
-        // GET: ProductController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
+            var products = _mapper.Map<List<Product>>(request);
 
-        // POST: ProductController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
+            foreach (var product in products)
             {
-                return RedirectToAction(nameof(Index));
+                if (product.Id == 0)
+                {
+                    product.TenantId = _currentUser.TenantId.Value;
+                    product.CreatedAt = DateTime.UtcNow;
+                    product.UpdatedAt = DateTime.UtcNow;
+                }
+                else
+                {
+                    product.UpdatedAt = DateTime.UtcNow;
+                }
             }
-            catch
-            {
-                return View();
-            }
+
+            await _store.SaveBulkAsync(products);
+
+            HttpContext.CreateAnnotation(Annotations.ResultCode, ResultCodes.Success);
+            HttpContext.CreateAnnotation(Annotations.ResultMessage, ResultMessages.Success);
+
+            return Ok(response);
         }
     }
 }
