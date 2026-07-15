@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SmartServe.API.Models;
-using SmartServe.Application.Models;
 
 namespace SmartServe.API.Controllers
 {

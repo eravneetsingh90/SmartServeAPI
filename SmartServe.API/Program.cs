@@ -2,8 +2,7 @@ using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.Elasticsearch;
 using SmartServe.API.Dependencies;
-using SmartServe.Infrastructure.Authentication;
-using SmartServe.Infrastructure.Middleware;
+using SmartServe.API.Helper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -71,9 +70,6 @@ if (app.Environment.IsDevelopment())
 
 // Global logging (first)
 app.UseMiddleware<SingleLogMiddleware>();
-
-// Tenant resolution
-app.UseMiddleware<TenantMiddleware>();
 
 app.UseHttpsRedirection();
 

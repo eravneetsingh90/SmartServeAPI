@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using SmartServe.API.Helper;
 using SmartServe.API.Models;
 using SmartServe.Domain.Constants;
-using SmartServe.Domain.Entities;
-using SmartServe.Domain.Interfaces;
-using SmartServe.Infrastructure.Authorization;
-using SmartServe.Infrastructure.Logging;
+using SmartServe.Domain.Models;
+using SmartServe.Domain.Stores;
+using SmartServe.EFCore.Models;
 
 namespace SmartServe.API.Controllers
 {
@@ -33,7 +33,7 @@ namespace SmartServe.API.Controllers
         {
             var response = new BaseResponseDto<CategoryDto>();
 
-            var category = await _store.GetByIdAsync(_currentUser.TenantId.Value, id);
+            var category = await _store.GetByIdAsync(id);
 
             if (category == null)
             {
@@ -56,7 +56,7 @@ namespace SmartServe.API.Controllers
         public async Task<IActionResult> GetAll()
         {
             var response = new BaseResponseDto<List<CategoryDto>>();
-            var categories = await _store.GetAllAsync(_currentUser.TenantId.Value);
+            var categories = await _store.GetAllAsync();
 
             if (categories == null || categories.Count <= 0)
             {
@@ -77,7 +77,7 @@ namespace SmartServe.API.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             var response = new BaseResponseDto<BlankDto>();
-            var category = await _store.GetByIdAsync(_currentUser.TenantId.Value, id);
+            var category = await _store.GetByIdAsync(id);
 
             if (category == null)
             {
@@ -101,11 +101,8 @@ namespace SmartServe.API.Controllers
         {
             var response = new BaseResponseDto<CategoryDto>();
 
-            var category = _mapper.Map<Category>(request);
-            category.TenantId = _currentUser.TenantId.Value;
-            category.CreatedAt = DateTime.UtcNow;
-            category.UpdatedAt = DateTime.UtcNow;
-
+            var category = _mapper.Map<CategoryEntity>(request);
+            
             _store.Add(category);
             await _store.SaveAsync();
 
@@ -123,7 +120,7 @@ namespace SmartServe.API.Controllers
         {
             var response = new BaseResponseDto<CategoryDto>();
 
-            var category = await _store.GetByIdAsync(_currentUser.TenantId.Value, id);
+            var category = await _store.GetByIdAsync(id);
 
             if (category == null)
             {
@@ -134,8 +131,7 @@ namespace SmartServe.API.Controllers
             }
 
             _mapper.Map(request, category);
-            category.UpdatedAt = DateTime.UtcNow;
-
+            
             _store.Update(category);
             await _store.SaveAsync();
 
@@ -154,19 +150,7 @@ namespace SmartServe.API.Controllers
         {
             var response = new BaseResponseDto<BlankDto>();
 
-            var categories = _mapper.Map<List<Category>>(request);
-            foreach (var category in categories)
-            {
-                if (category.Id == 0)
-                {
-                    category.TenantId = _currentUser.TenantId.Value;
-                    category.CreatedAt = DateTime.UtcNow;
-                    category.UpdatedAt = DateTime.UtcNow;
-                }
-                else
-                    category.UpdatedAt = DateTime.UtcNow;
-            }
-
+            var categories = _mapper.Map<List<CategoryEntity>>(request);
             await _store.SaveBulkAsync(categories);
 
             HttpContext.CreateAnnotation(Annotations.ResultCode, ResultCodes.Success);

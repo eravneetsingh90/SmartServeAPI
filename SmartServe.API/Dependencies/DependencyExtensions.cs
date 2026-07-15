@@ -1,8 +1,9 @@
-﻿using SmartServe.API.Mapping;
+﻿using SmartServe.API.Helper;
+using SmartServe.API.Mapping;
 using SmartServe.Domain.Dependencies;
-using SmartServe.Persistence.Dependencies;
-using SmartServe.Application.Dependencies;
-using SmartServe.Infrastructure.Dependencies;
+using SmartServe.Domain.Interfaces;
+using SmartServe.Domain.Services;
+using SmartServe.EFCore.Dependencies;
 
 namespace SmartServe.API.Dependencies
 {
@@ -12,12 +13,14 @@ namespace SmartServe.API.Dependencies
             this IServiceCollection services,
             IConfiguration configuration)
         {
+            services.AddHttpContextAccessor();
+            services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
+            services.AddScoped<ICurrentUser, CurrentUser>();
+
             //mapping profiles
             services.AddAutoMapper(typeof(MappingProfile));
-            services.AddInfrastructure();
-            services.AddApplication();
-            services.AddPersistence(configuration);
-            services.AddDomain();
+            services.UseDomain();
+            services.UseEFCore(configuration);
 
             return services;
         }

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using SmartServe.API.Models;
-using SmartServe.Application.Models;
-using SmartServe.Domain.Entities;
+using SmartServe.Common.Models;
+using SmartServe.Domain.Models;
 
 namespace SmartServe.API.Mapping
 {

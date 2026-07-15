@@ -1,11 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using SmartServe.API.Helper;
 using SmartServe.API.Models;
 using SmartServe.Domain.Constants;
-using SmartServe.Domain.Entities;
-using SmartServe.Domain.Interfaces;
-using SmartServe.Infrastructure.Authorization;
-using SmartServe.Infrastructure.Logging;
+using SmartServe.Domain.Stores;
+using SmartServe.EFCore.Models;
 
 namespace SmartServe.API.Controllers
 {
@@ -33,7 +32,7 @@ namespace SmartServe.API.Controllers
         {
             var response = new BaseResponseDto<ProductDto>();
 
-            var product = await _store.GetByIdAsync(_currentUser.TenantId.Value, id);
+            var product = await _store.GetByIdAsync(id);
 
             if (product == null)
             {
@@ -57,7 +56,7 @@ namespace SmartServe.API.Controllers
         {
             var response = new BaseResponseDto<List<ProductDto>>();
 
-            var products = await _store.GetAllAsync(_currentUser.TenantId.Value);
+            var products = await _store.GetAllAsync();
 
             if (products == null || products.Count == 0)
             {
@@ -81,12 +80,10 @@ namespace SmartServe.API.Controllers
         {
             var response = new BaseResponseDto<ProductDto>();
 
-            var product = _mapper.Map<Product>(request);
+            var product = _mapper.Map<ProductEntity>(request);
 
-            product.TenantId = _currentUser.TenantId.Value;
             product.CreatedAt = DateTime.UtcNow;
-            product.UpdatedAt = DateTime.UtcNow;
-
+            
             _store.Add(product);
             await _store.SaveAsync();
 
@@ -104,7 +101,7 @@ namespace SmartServe.API.Controllers
         {
             var response = new BaseResponseDto<ProductDto>();
 
-            var product = await _store.GetByIdAsync(_currentUser.TenantId.Value, id);
+            var product = await _store.GetByIdAsync(id);
 
             if (product == null)
             {
@@ -115,8 +112,7 @@ namespace SmartServe.API.Controllers
             }
 
             _mapper.Map(request, product);
-            product.UpdatedAt = DateTime.UtcNow;
-
+            
             _store.Update(product);
             await _store.SaveAsync();
 
@@ -134,7 +130,7 @@ namespace SmartServe.API.Controllers
         {
             var response = new BaseResponseDto<BlankDto>();
 
-            var product = await _store.GetByIdAsync(_currentUser.TenantId.Value, id);
+            var product = await _store.GetByIdAsync(id);
 
             if (product == null)
             {
@@ -143,9 +139,6 @@ namespace SmartServe.API.Controllers
 
                 return BadRequest(WithMappedError(response, ResultCodes.RecordNotFound, ResultMessages.RecordNotFound));
             }
-
-            product.IsDeleted = true;
-            product.UpdatedAt = DateTime.UtcNow;
 
             _store.Update(product);
             await _store.SaveAsync();
@@ -163,19 +156,13 @@ namespace SmartServe.API.Controllers
         {
             var response = new BaseResponseDto<BlankDto>();
 
-            var products = _mapper.Map<List<Product>>(request);
+            var products = _mapper.Map<List<ProductEntity>>(request);
 
             foreach (var product in products)
             {
                 if (product.Id == 0)
                 {
-                    product.TenantId = _currentUser.TenantId.Value;
                     product.CreatedAt = DateTime.UtcNow;
-                    product.UpdatedAt = DateTime.UtcNow;
-                }
-                else
-                {
-                    product.UpdatedAt = DateTime.UtcNow;
                 }
             }
 

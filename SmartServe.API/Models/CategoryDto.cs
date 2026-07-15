@@ -1,6 +1,4 @@
-﻿using SmartServe.Domain.Entities;
-
-namespace SmartServe.API.Models
+﻿namespace SmartServe.API.Models
 {
     public class CategoryDto
     {
