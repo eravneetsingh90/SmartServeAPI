@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using SmartServe.API.Helper;
 using SmartServe.API.Models;
 using SmartServe.Domain.Constants;
-using SmartServe.Domain.Models;
 using SmartServe.Domain.Stores;
 using SmartServe.EFCore.Models;
 
