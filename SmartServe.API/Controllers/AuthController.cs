@@ -21,7 +21,7 @@ public class AuthController : BaseController
     public AuthController(
         IMapper mapper, 
         IAuthService authService,
-        IJwtTokenGenerator jwtTokenGenerator,
+        //IJwtTokenGenerator jwtTokenGenerator,
         ILogger<AuthController> logger)
     {
         _mapper = mapper;

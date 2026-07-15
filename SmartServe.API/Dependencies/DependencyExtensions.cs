@@ -14,7 +14,6 @@ namespace SmartServe.API.Dependencies
             IConfiguration configuration)
         {
             services.AddHttpContextAccessor();
-            services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
             services.AddScoped<ICurrentUser, CurrentUser>();
 
             //mapping profiles
