@@ -1,0 +1,3 @@
+[submodule "SmartServeCommon"]
+	path = SmartServeCommon
+	url = https://github.com/eravneetsingh90/SmartServeCommon.git
