@@ -1,39 +1,6 @@
 ﻿namespace SmartServe.Domain.Constants
 {
-    public static class ContextKeys
-    {
-        public const string TenantId = "TenantId";
-        public const string TenantCode = "TenantCode";
-    }
-    public static class ResultCodes
-    {
-        public const string Success = "R00";
-        public const string DataValidationError = "R01";
-        public const string LoginError = "R02";
-        public const string Error = "R03";
-        public const string DuplicateNotAllowed = "R04";
-        public const string ActiveOrderExists = "R05";
-        public const string RecordNotFound = "R06";
-    }
-    public static class ResultMessages
-    {
-        public const string Success = "Success";
-        public const string DataValidationError = "Data Validation Error";
-        public const string LoginError = "Username or Password is incorrect";
-        public const string Error = "Technical Error";
-        public const string DuplicateNotAllowed = "Duplicate Not Allowed";
-        public const string ActiveOrderExists = "Active Order Exists";
-        public const string RecordNotFound = "Record Not Found";
-    }
-
-    public static class Annotations
-    {
-        public const string ResultCode = "ResultCode";
-        public const string ResultMessage = "ResultMessages";
-        public const string UserId = "UserId";
-        public const string TenantCode = "TenantCode";
-    }
-    public static class TableStatusCodes
+	public static class TableStatusCodes
 	{
 		public const string BLANK = "BLANK";
 		public const string RUNNING = "RUNNING";
@@ -72,9 +39,7 @@
 	}
     public static class RoleType
     {
-        public const string SuperAdmin = "SuperAdmin";
-        public const string Admin = "Admin";
-        public const string Manager = "Manager";
-		public const string Cashier = "Cashier";
+        public const string Admin = "ADMIN";
+        public const string Manager = "MANAGER";
     }
 }

@@ -1,0 +1,17 @@
+﻿using SmartServe.EFCore.Models;
+
+namespace SmartServe.Domain.Models
+{
+	public class TableStatus
+	{
+		public int Id { get; set; }
+
+		public string StatusCode { get; set; } = null!;
+
+		public string? StatusName { get; set; }
+
+		public string? ColorHex { get; set; }
+
+		public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
+	}
+}
