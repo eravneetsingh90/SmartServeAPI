@@ -13,10 +13,10 @@ WORKDIR /src
 
 # Copy csproj files first for caching
 COPY ["SmartServe.API/SmartServe.API.csproj", "SmartServe.API/"]
-COPY ["SmartServe.Application/SmartServe.Application.csproj", "SmartServe.Application/"]
+COPY ["SmartServe.Common/SmartServe.Common.csproj", "SmartServe.Common/"]
 COPY ["SmartServe.Domain/SmartServe.Domain.csproj", "SmartServe.Domain/"]
-COPY ["SmartServe.Infrastructure/SmartServe.Infrastructure.csproj", "SmartServe.Infrastructure/"]
-COPY ["SmartServe.Persistence/SmartServe.Persistence.csproj", "SmartServe.Persistence/"]
+COPY ["SmartServe.EFCore/SmartServe.EFCore.csproj", "SmartServe.EFCore/"]
+COPY ["SmartServe.Resources/SmartServe.Resources.csproj", "SmartServe.Resources/"]
 
 RUN dotnet restore "SmartServe.API/SmartServe.API.csproj"
 
