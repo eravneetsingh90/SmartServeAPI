@@ -19,6 +19,7 @@ namespace SmartServe.API.Controllers
         }
 
         [HttpGet]
+        [Authorize(RoleType.Admin)]
         public async Task<IActionResult> GetOrders(DateTime fromUtc, DateTime toUtc)
         {
             var response = new BaseResponseDto<OrderReportResult>();
@@ -43,6 +44,7 @@ namespace SmartServe.API.Controllers
 
         [HttpGet]
         [Route("{orderId}/items")]
+        [Authorize(RoleType.Admin)]
         public async Task<IActionResult> GetOrderItems(int orderId)
         {
             var response = new BaseResponseDto<List<OrderItem>>();
