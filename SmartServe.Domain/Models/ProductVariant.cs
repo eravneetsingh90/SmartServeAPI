@@ -22,14 +22,14 @@ namespace SmartServe.Domain.Models
 
 		public virtual Brand? Brand { get; set; }
 
-		public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
+		//public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
 
-		public virtual Product Product { get; set; } = null!;
+		//public virtual Product Product { get; set; } = null!;
 
-		public virtual ICollection<ProductIngredient> ProductIngredientIngredientVariants { get; set; } = new List<ProductIngredient>();
+		//public virtual ICollection<ProductIngredient> ProductIngredientIngredientVariants { get; set; } = new List<ProductIngredient>();
 
-		public virtual ICollection<ProductIngredient> ProductIngredientProductVariants { get; set; } = new List<ProductIngredient>();
+		//public virtual ICollection<ProductIngredient> ProductIngredientProductVariants { get; set; } = new List<ProductIngredient>();
 
-		public virtual ICollection<Stock> Stocks { get; set; } = new List<Stock>();
+		//public virtual ICollection<Stock> Stocks { get; set; } = new List<Stock>();
 	}
 }
